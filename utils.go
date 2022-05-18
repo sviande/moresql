@@ -5,7 +5,9 @@ import (
 	"flag"
 	"os"
 	"runtime/pprof"
+        "reflect"
 	"strings"
+        "gopkg.in/mgo.v2/bson"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
@@ -158,7 +160,13 @@ func SanitizeData(pgFields Fields, op *gtm.Op) map[string]interface{} {
 	// op.Data. Must occur after the preceeding iterative block
 	// in order to avoid being overwritten with nil.
 	if op.Id != nil {
-		output["_id"] = op.Id
+            output["_id"] = op.Id
+            testId := reflect.TypeOf(op.Id).String()
+            if testId != "string" {
+                convId := op.Id.(bson.ObjectId)
+                convIdStr := convId.Hex()
+		output["_id"] = convIdStr
+            }
 	}
 
 	return output
