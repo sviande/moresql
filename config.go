@@ -24,7 +24,7 @@ func LoadConfigString(s string) (Config, error) {
 		collections := Collections{}
 		db.Collections = collections
 		for k, v := range v.Collections {
-			coll := Collection{Name: v.Name, PgTable: v.PgTable}
+			coll := Collection{Name: v.Name, PgTable: v.PgTable, Delay: v.Delay}
 			var fields Fields
 			fields, err = JsonToFields(string(v.Fields))
 			if err != nil {
@@ -34,7 +34,7 @@ func LoadConfigString(s string) (Config, error) {
 			coll.Fields = fields
 			db.Collections[k] = coll
 			if v.Alias != "" {
-				aliasColl := Collection{Name: v.Alias, PgTable: v.PgTable}
+				aliasColl := Collection{Name: v.Alias, PgTable: v.PgTable, Delay: v.Delay}
 				aliasColl.Fields = fields
 				db.Collections[v.Alias] = aliasColl
 			}

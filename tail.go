@@ -394,6 +394,11 @@ func (t *Tailer) processOp(op *gtm.Op, workerType string) {
 		}).Debug(fmt.Sprintf("%s worker processed", workerType))
 	}
 	data := SanitizeData(c.Fields, op)
+
+	if c.Delay != 0 {
+		time.Sleep(time.Duration(c.Delay) * time.Millisecond)
+	}
+
 	switch {
 	case op.IsInsert():
 		t.counters.insert.Incr(1)

@@ -311,6 +311,7 @@ type Collection struct {
 	Name    string `json:"name"`
 	PgTable string `json:"pg_table"`
 	Fields  Fields `json:"fields"`
+	Delay   int64  `json:"delay"`
 }
 
 type CollectionDelayed struct {
@@ -318,6 +319,7 @@ type CollectionDelayed struct {
 	Alias   string          `json:"alias"`
 	PgTable string          `json:"pg_table"`
 	Fields  json.RawMessage `json:"fields"`
+	Delay   int64           `json:"delay"`
 }
 
 func (c Collection) pgTableQuoted() string {
